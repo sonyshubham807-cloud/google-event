@@ -1,0 +1,271 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* Futuristic Dark Mode Palette */
+  --bg-primary: #050508;
+  --bg-secondary: #0d0f14;
+  --bg-tertiary: #161821;
+  
+  --text-primary: #ffffff;
+  --text-secondary: #a1a1aa;
+  
+  --accent-cyan: #00f0ff;
+  --accent-magenta: #ff003c;
+  --accent-gradient: linear-gradient(135deg, #00f0ff 0%, #0077ff 100%);
+  
+  /* Status Colors */
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  
+  --shape-radius: 20px;
+  --shape-radius-sm: 10px;
+  
+  /* Modern Glassmorphism Utilities */
+  --glass-bg: rgba(13, 15, 20, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.05);
+  --glass-highlight: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Outfit', sans-serif;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+/* Glassmorphism Classes */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-highlight), 0 8px 32px rgba(0, 0, 0, 0.4);
+  border-radius: var(--shape-radius);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+}
+
+/* Micro-interactions */
+.glass-panel:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: var(--glass-highlight), 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* Animations */
+@keyframes fadeInSlide {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseNeon {
+  0%, 100% { text-shadow: 0 0 5px rgba(0, 240, 255, 0.5), 0 0 10px rgba(0, 240, 255, 0.3); }
+  50% { text-shadow: 0 0 15px rgba(0, 240, 255, 0.8), 0 0 20px rgba(0, 240, 255, 0.5); }
+}
+
+@keyframes logoReveal {
+  0% { opacity: 0; transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.animate-fade-in {
+  animation: fadeInSlide 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.brand-title {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -0.05em;
+  animation: logoReveal 0.8s ease-out, pulseNeon 3s infinite;
+}
+
+.brand-title span {
+  color: var(--accent-cyan);
+}
+
+/* App Container (Mobile First) */
+.app-container {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+  background-image: radial-gradient(circle at top right, rgba(0, 240, 255, 0.05), transparent 40%),
+                    radial-gradient(circle at bottom left, rgba(255, 0, 60, 0.05), transparent 40%);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Top Status Bar */
+.status-bar {
+  padding: 10px 20px;
+  background: var(--bg-primary);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--glass-border);
+  position: relative;
+  z-index: 50;
+}
+
+.status-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-tertiary);
+  padding: 4px 8px;
+  border-radius: 12px;
+}
+
+/* Header */
+.app-header {
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: linear-gradient(to bottom, var(--bg-primary) 70%, transparent);
+  backdrop-filter: blur(5px);
+}
+
+/* Navigation */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  padding: 15px 20px 20px;
+  background: rgba(5, 5, 8, 0.85); /* Slightly darker for contrast */
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--glass-border);
+  display: flex;
+  justify-content: space-between;
+  z-index: 999;
+}
+
+.nav-item {
+  color: var(--text-secondary);
+  background: none;
+  border: none;
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+  flex: 1;
+}
+
+.nav-item.active {
+  color: var(--accent-cyan);
+}
+
+.nav-item.active .nav-icon {
+  transform: translateY(-4px) scale(1.1);
+  color: var(--accent-cyan);
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+}
+
+.nav-icon {
+  font-size: 1.4rem;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Content Area */
+.main-content {
+  flex-grow: 1;
+  padding: 0 20px 100px; /* Space for bottom nav */
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Buttons */
+.btn-primary {
+  background: var(--accent-gradient);
+  color: #fff;
+  border: none;
+  border-radius: var(--shape-radius-sm);
+  padding: 12px 24px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.btn-primary:active {
+  transform: scale(0.97);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 8px 25px rgba(0, 240, 255, 0.3);
+}
+
+/* Cards (Masonry layout style) */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.stat-card {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.stat-card-title {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+.stat-card-value {
+  font-size: 1.4rem;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+/* Improved Heatmap glow classes */
+@keyframes intensePulse {
+  0% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.15); opacity: 0.8; }
+  100% { transform: scale(1); opacity: 0.6; }
+}
+
+.heatmap-zone {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(15px);
+  mix-blend-mode: screen;
+  transition: all 0.5s ease-out;
+}
