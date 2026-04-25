@@ -1,31 +1,34 @@
-# Step 1: Build React app (Use Node 20)
+# Step 1: Build Vite app
 FROM node:20 AS builder
 
 WORKDIR /app
 
-# Copy package files
 COPY package*.json ./
-
-# Install dependencies
 RUN npm install
 
-# Copy project files
 COPY . .
 
-# Build Vite project
 RUN npm run build
 
-# Step 2: Serve using nginx
+
+# Step 2: Serve with nginx
 FROM nginx:alpine
 
-# Remove default files
-RUN rm -rf /usr/share/nginx/html/*
+# Remove default nginx config
+RUN rm /etc/nginx/conf.d/default.conf
 
-# Copy built files
+# Create new nginx config for port 8080
+RUN printf "server { \
+    listen 8080; \
+    location / { \
+    root /usr/share/nginx/html; \
+    index index.html; \
+    try_files \$uri \$uri/ /index.html; \
+    } \
+    }" > /etc/nginx/conf.d/default.conf
+
+# Copy build files
 COPY --from=builder /app/dist /usr/share/nginx/html
-
-# Force nginx to run on 8080
-RUN sed -i 's/listen 80;/listen 8080;/' /etc/nginx/conf.d/default.conf
 
 EXPOSE 8080
 
