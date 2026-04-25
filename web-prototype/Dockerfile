@@ -1,29 +1,28 @@
-# Use the official Node.js 20 Alpine image as the base image for building
-FROM node:20-alpine AS build
+# Step 1: Build React app
+FROM node:18 AS builder
 
-# Set the working directory inside the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
 
-# Install project dependencies
 RUN npm install
 
-# Copy the rest of the project files to the working directory
 COPY . .
 
-# Build the Vite React application for production
 RUN npm run build
 
-# Use Nginx Alpine as the base image for serving the application
+# Step 2: Serve using nginx
 FROM nginx:alpine
 
-# Copy the build output from the previous stage to the Nginx HTML directory
-COPY --from=build /app/dist /usr/share/nginx/html
+# Remove default nginx files
+RUN rm -rf /usr/share/nginx/html/*
 
-# Expose port 80 to access the Nginx server
-EXPOSE 80
+# Copy built files
+COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Start Nginx when the container starts
+# Configure nginx to use port 8080
+RUN sed -i 's/listen 80;/listen 8080;/' /etc/nginx/conf.d/default.conf
+
+EXPOSE 8080
+
 CMD ["nginx", "-g", "daemon off;"]
