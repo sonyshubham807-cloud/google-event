@@ -50,6 +50,12 @@ function LiveScorecard() {
           }
         });
         const result = await response.json();
+        
+        // Force fallback if rapidapi gives an error payload instead of data
+        if (!response.ok || !result.matchInfo) {
+          throw new Error("API Limit Reached or Missing matchInfo");
+        }
+        
         // Set standard cricket format or fallback to result if format differs
         setMatchData(result); 
         setLoading(false);
